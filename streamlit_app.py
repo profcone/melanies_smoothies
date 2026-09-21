@@ -1,6 +1,5 @@
 # Import python packages
 import streamlit as st
-#from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
 import os
 
@@ -11,14 +10,19 @@ st.write(
   """
 )
 
+# Connect to something:
+#cnx = st.connection("snowflake")
+#session = cnx.session()
+
 # Get customer name:
 name_on_order = st.text_input('Name on Smoothie:')
 st.write('The name on your Smoothie will be:', name_on_order)
 
 # Create a database connection to Snowflake
-conn = st.connection("snowflake",   
-    ttl=os.getenv("SNOWFLAKE_CONNECTION_TTL"))
-session = conn.session()
+cnx = st.connection("snowflake")
+#cnx = st.connection("snowflake",   
+#    ttl=os.getenv("SNOWFLAKE_CONNECTION_TTL"))
+session = cnx.session()
 
 #session = get_active_session()
 my_dataframe = session.table("smoothies.public.fruit_options")\
